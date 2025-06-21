@@ -74,7 +74,7 @@ grep -rl '"实时流量监测"' . | xargs -r sed -i 's?"实时流量监测"?"流
 grep -rl '"KMS 服务器"' . | xargs -r sed -i 's?"KMS 服务器"?"KMS激活"?g'
 grep -rl '"USB 打印服务器"' . | xargs -r sed -i 's?"USB 打印服务器"?"打印服务"?g'
 grep -rl '"Web 管理"' . | xargs -r sed -i 's?"Web 管理"?"Web管理"?g'
-grep -rl '"管理权"' . | xargs -r sed -i 's?"管理权"?"改密码"?g'
+grep -rl '"管理权"' . | xargs -r sed -i 's?"管理权"?"管理权"?g'
 grep -rl '"带宽监控"' . | xargs -r sed -i 's?"带宽监控"?"监控"?g'
 
 
