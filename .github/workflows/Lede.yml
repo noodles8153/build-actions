@@ -33,6 +33,7 @@ on:
           - 'phicomm_n1'
           - 'phicomm_k2p'
           - 'phicomm_k3'
+          - 'photonicat'
           - 'x86_32'
           - 'x86_64'
           - 'xiaoyu_xy-c5'
