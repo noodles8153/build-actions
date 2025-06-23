@@ -42,6 +42,9 @@ export Replace_Kernel="0"                    # 更换内核版本,在对应源�
 # 设置免密码登录(个别源码本身就没密码的)
 export Password_free_login="0"               # 设置首次登录后台密码为空（进入openwrt后自行修改密码）(1为启用命令,填0为不作修改)
 
+# 直接修改 shadow 文件设置密码（密码为 password）
+sed -i 's|^root:[^:]*:|root:$1$openwrt1$zcy.UjExeV4Ttm6Uq1F5Z0:|' package/base-files/files/etc/shadow
+
 # 增加AdGuardHome插件和核心
 export AdGuardHome_Core="0"                  # 编译固件时自动增加AdGuardHome插件和AdGuardHome插件核心,需要注意的是一个核心20多MB的,小闪存机子搞不来(1为启用命令,填0为不作修改)
 
