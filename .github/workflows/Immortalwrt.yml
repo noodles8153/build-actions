@@ -30,6 +30,7 @@ on:
         options:
           - 'x86_64'
           - 'photonicat'
+          - 'ariaboard_photonicat'
           - 'ceshi'
           - 'armsr_rootfs_tar_gz'
       INFORMATION_NOTICE:
