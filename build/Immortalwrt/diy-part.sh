@@ -33,28 +33,6 @@ export Enable_IPV4_function="0"             # 编译IPV4固件(1为启用命令,
 # 替换OpenClash的源码(默认master分支)
 export OpenClash_branch="1"                 # OpenClash的源码分别有【master分支】和【dev分支】(填0为关闭,填1为使用master分支,填2为使用dev分支,填入1或2的时候固件自动增加此插件)
 
-
-set -e
-
-# 设置工作路径
-WORKDIR=$(pwd)
-TARGET_DIR="$WORKDIR/package/luci-app-bypass"
-
-echo "➡️ 开始准备 luci-app-bypass 插件..."
-
-# 删除旧目录（如果存在）
-[ -d "$TARGET_DIR" ] && rm -rf "$TARGET_DIR"
-
-# 克隆插件
-echo "🔄 从 GitHub 拉取 luci-app-bypass..."
-git clone --depth=1 https://github.com/kenzok8/small temp-bypass
-
-# 移动插件到正确目录
-mv temp-bypass/luci-app-bypass "$TARGET_DIR"
-rm -rf temp-bypass
-
-echo "✅ luci-app-bypass 已放入 $TARGET_DIR"
-
 # 个性签名,默认增加年月日[$(TZ=UTC-8 date "+%Y.%m.%d")]
 export Customized_Information="$(TZ=UTC-8 date "+%Y.%m.%d")"  # 个性签名,你想写啥就写啥，(填0为不作修改)
 
@@ -64,7 +42,7 @@ export Replace_Kernel="0"                    # 更换内核版本,在对应源�
 # 设置免密码登录(个别源码本身就没密码的)
 export Password_free_login="0"               # 设置首次登录后台密码为空（进入openwrt后自行修改密码）(1为启用命令,填0为不作修改)
 
-# 设置 root 密码
+# 直接修改 shadow 文件设置密码（密码为 password）
 sed -i 's|^root:[^:]*:|root:$1$openwrt1$zcy.UjExeV4Ttm6Uq1F5Z0:|' package/base-files/files/etc/shadow
 
 # 增加AdGuardHome插件和核心
@@ -74,7 +52,7 @@ export AdGuardHome_Core="0"                  # 编译固件时自动增加AdGuar
 export Automatic_Mount_Settings="0"          # 编译时加入开启NTFS格式盘挂载的所需依赖(1为启用命令,填0为不作修改)
 
 # 去除网络共享(autosamba)
-export Disable_autosamba="1"                 # 去掉源码默认自选的luci-app-samba或luci-app-samba4(1为启用命令,填0为不作修改)
+export Disable_autosamba="0"                 # 去掉源码默认自选的luci-app-samba或luci-app-samba4(1为启用命令,填0为不作修改)
 
 # 其他
 export Ttyd_account_free_login="1"           # 设置ttyd免密登录(1为启用命令,填0为不作修改)
@@ -104,17 +82,17 @@ grep -rl '"带宽监控"' . | xargs -r sed -i 's?"带宽监控"?"监控"?g'
 
 
 # 整理固件包时候,删除您不想要的固件或者文件,让它不需要上传到Actions空间(根据编译机型变化,自行调整删除名称)
-#cat >"$CLEAR_PATH" <<-EOF
-#packages
-#config.buildinfo
-#feeds.buildinfo
-#sha256sums
-#version.buildinfo
-#profiles.json
-#openwrt-x86-64-generic-kernel.bin
-#openwrt-x86-64-generic.manifest
-#openwrt-x86-64-generic-squashfs-rootfs.img.gz
-#EOF
+cat >"$CLEAR_PATH" <<-EOF
+packages
+config.buildinfo
+feeds.buildinfo
+sha256sums
+version.buildinfo
+profiles.json
+openwrt-x86-64-generic-kernel.bin
+openwrt-x86-64-generic.manifest
+openwrt-x86-64-generic-squashfs-rootfs.img.gz
+EOF
 
 # 在线更新时，删除不想保留固件的某个文件，在EOF跟EOF之间加入删除代码，记住这里对应的是固件的文件路径，比如： rm -rf /etc/config/luci
 cat >>$DELETE <<-EOF
