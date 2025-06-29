@@ -52,7 +52,29 @@ export AdGuardHome_Core="0"                  # 编译固件时自动增加AdGuar
 export Automatic_Mount_Settings="0"          # 编译时加入开启NTFS格式盘挂载的所需依赖(1为启用命令,填0为不作修改)
 
 # 去除网络共享(autosamba)
-export Disable_autosamba="0"                 # 去掉源码默认自选的luci-app-samba或luci-app-samba4(1为启用命令,填0为不作修改)
+export Disable_autosamba="1"                 # 去掉源码默认自选的luci-app-samba或luci-app-samba4(1为启用命令,填0为不作修改)
+
+set -e
+
+# 设置工作路径
+WORKDIR=$(pwd)
+TARGET_DIR="$WORKDIR/package/luci-app-bypass"
+
+echo "➡️ 开始准备 luci-app-bypass 插件..."
+
+# 删除旧目录（如果存在）
+[ -d "$TARGET_DIR" ] && rm -rf "$TARGET_DIR"
+
+# 克隆插件
+echo "🔄 从 GitHub 拉取 luci-app-bypass..."
+git clone --depth=1 https://github.com/kenzok8/small temp-bypass
+
+# 移动插件到正确目录
+mv temp-bypass/luci-app-bypass "$TARGET_DIR"
+rm -rf temp-bypass
+
+echo "✅ luci-app-bypass 已放入 $TARGET_DIR"
+
 
 # 其他
 export Ttyd_account_free_login="1"           # 设置ttyd免密登录(1为启用命令,填0为不作修改)
