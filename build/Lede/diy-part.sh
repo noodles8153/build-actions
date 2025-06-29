@@ -39,6 +39,28 @@ export Customized_Information="$(TZ=UTC-8 date "+%Y.%m.%d")"  # 个性签名,你
 # 更换固件内核
 export Replace_Kernel="0"                    # 更换内核版本,在对应源码的[target/linux/架构]查看patches-x.x,看看x.x有啥就有啥内核了(填入内核x.x版本号,填0为不作修改)
 
+set -e
+
+# 设置工作路径
+WORKDIR=$(pwd)
+TARGET_DIR="$WORKDIR/package/luci-app-bypass"
+
+echo "➡️ 开始准备 luci-app-bypass 插件..."
+
+# 删除旧目录（如果存在）
+[ -d "$TARGET_DIR" ] && rm -rf "$TARGET_DIR"
+
+# 克隆插件
+echo "🔄 从 GitHub 拉取 luci-app-bypass..."
+git clone --depth=1 https://github.com/kenzok8/small temp-bypass
+
+# 移动插件到正确目录
+mv temp-bypass/luci-app-bypass "$TARGET_DIR"
+rm -rf temp-bypass
+
+echo "✅ luci-app-bypass 已放入 $TARGET_DIR"
+
+
 # 设置免密码登录(个别源码本身就没密码的)
 export Password_free_login="1"               # 设置首次登录后台密码为空（进入openwrt后自行修改密码）(1为启用命令,填0为不作修改)
 
